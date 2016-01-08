@@ -31,4 +31,4 @@ Compiled Object files
 *.swp
 
 build/
-.ycm_extra_conf.py
+.ycm_extra_conf.*
