@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.0.2 FATAL_ERROR)
 project(arbiter)
 
 set_property(GLOBAL PROPERTY CXX_STANDARD 11)
