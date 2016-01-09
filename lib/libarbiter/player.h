@@ -8,6 +8,11 @@
 
 namespace libarbiter {
 
+enum PlayerStringType {
+  JSON,
+  CSV,
+};
+
 /**
  *  A single tournament participant.
  */
@@ -24,6 +29,21 @@ class Player {
   int draws() const { return draws_white_ + draws_black_; }
   int losses() const { return losses_white_ + losses_black_; }
 
+  /**
+   *  Generates a Player from a single line of JSON or CSV.
+   *
+   *  JSON example:
+   *  \code
+   *    { "name": "foo", "elo": 2000 }
+   *  \endcode
+   *
+   *  CSV example:
+   *  \code
+   *    foo,2000
+   *  \endcode
+   */
+  static Player* NewPlayer(std::string player_string, PlayerStringType type);
+
  private:
   boost::uuids::uuid id_;
   std::string name_;
@@ -39,4 +59,4 @@ class Player {
 
 }  // namespace libarbiter
 
-#endif
+#endif  // LIB_LIBARBITER_PLAYER_H_

@@ -2,3 +2,4 @@
 #include "catch.hpp"
 
 #include "player_list_test.inc"
+#include "player_test.inc"

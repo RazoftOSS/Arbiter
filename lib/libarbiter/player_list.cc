@@ -8,9 +8,9 @@
 
 namespace libarbiter {
 
-void PlayerList::Add(const Player& player) {
+void PlayerList::Add(Player* player) {
   std::lock_guard<std::mutex> lock(players_lock_);
-  players_.emplace(player.id(), player);
+  players_.emplace(player->id(), std::unique_ptr<Player>(player));
 }
 
 void PlayerList::Remove(boost::uuids::uuid id) {
@@ -21,7 +21,7 @@ void PlayerList::Remove(boost::uuids::uuid id) {
 const Player* PlayerList::GetPlayer(boost::uuids::uuid id) const {
   auto player_pair = players_.find(id);
   if (player_pair != players_.end()) {
-    return &player_pair->second;
+    return player_pair->second.get();
   }
   return nullptr;
 }
@@ -29,7 +29,7 @@ const Player* PlayerList::GetPlayer(boost::uuids::uuid id) const {
 Player* PlayerList::GetMutablePlayer(boost::uuids::uuid id) {
   auto player_pair = players_.find(id);
   if (player_pair != players_.end()) {
-    return &player_pair->second;
+    return player_pair->second.get();
   }
   return nullptr;
 }

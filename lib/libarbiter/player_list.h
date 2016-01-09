@@ -1,6 +1,7 @@
 #ifndef LIB_LIBARBITER_PLAYER_LIST_H_
 #define LIB_LIBARBITER_PLAYER_LIST_H_
 
+#include <memory>
 #include <mutex>
 #include <unordered_map>
 
@@ -21,7 +22,7 @@ class PlayerList {
   PlayerList& operator=(const PlayerList&) = delete;
 
   /** Add a Player to the PlayerList. */
-  void Add(const Player& player);
+  void Add(Player* player);
   /** Remove a Player from the PlayerList. */
   void Remove(boost::uuids::uuid id);
 
@@ -44,7 +45,7 @@ class PlayerList {
 
  private:
   /** Map of player ID's to players. */
-  std::unordered_map<boost::uuids::uuid, Player,
+  std::unordered_map<boost::uuids::uuid, std::unique_ptr<Player>,
                      boost::hash<boost::uuids::uuid>> players_;
 
   /** Lock protecting the map of players. */
@@ -53,4 +54,4 @@ class PlayerList {
 
 }  // namespace libarbiter
 
-#endif
+#endif  // LIB_LIBARBITER_PLAYER_LIST_H_

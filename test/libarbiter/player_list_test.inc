@@ -6,24 +6,24 @@
 #include "player.h"
 
 TEST_CASE("Add and remove player", "") {
-  libarbiter::Player player("test", 2000);
+  auto player = new libarbiter::Player("test", 2000);
   libarbiter::PlayerList list;
   REQUIRE(list.NumPlayers() == 0);
 
   list.Add(player);
-  list.Remove(player.id());
+  list.Remove(player->id());
 
   CHECK(list.NumPlayers() == 0);
 }
 
 TEST_CASE("Find existing player", "") {
-  libarbiter::Player player("test", 2000);
+  auto player = new libarbiter::Player("test", 2000);
   libarbiter::PlayerList list;
 
   list.Add(player);
-  auto other = list.GetPlayer(player.id());
+  auto other = list.GetPlayer(player->id());
   REQUIRE(other != nullptr);
-  CHECK(other->id() == player.id());
+  CHECK(other->id() == player->id());
 }
 
 TEST_CASE("Find nonexistent player", "") {
