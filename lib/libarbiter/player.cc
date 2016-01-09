@@ -1,10 +1,13 @@
 #include "player.h"
 
 #include <iterator>
+#include <sstream>
 #include <string>
 
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/log/trivial.hpp>
+#include <boost/property_tree/json_parser.hpp>
+#include <boost/property_tree/ptree.hpp>
 #include <boost/tokenizer.hpp>
 
 namespace libarbiter {
@@ -39,6 +42,21 @@ Player* NewPlayerCSV(std::string player_string) {
   return new Player(player_name, player_elo);
 }
 
+Player* NewPlayerJSON(std::string player_string) {
+  boost::property_tree::ptree tree;
+  std::stringstream ss(player_string);
+  boost::property_tree::read_json(ss, tree);
+  std::string player_name = tree.get("name", "");
+  int player_elo = tree.get("elo", -1);
+  if (player_name == "" || player_elo == -1) {
+    BOOST_LOG_TRIVIAL(warning)
+        << "Player JSON data contained invalid or missing field. Data: "
+        << player_string;
+    return nullptr;
+  }
+  return new Player(player_name, player_elo);
+}
+
 }  // namespace
 
 Player* Player::NewPlayer(std::string player_string, PlayerStringType type) {
@@ -46,7 +64,7 @@ Player* Player::NewPlayer(std::string player_string, PlayerStringType type) {
     case PlayerStringType::CSV:
       return NewPlayerCSV(player_string);
     case PlayerStringType::JSON:
-      return nullptr;
+      return NewPlayerJSON(player_string);
   }
   return nullptr;
 }
