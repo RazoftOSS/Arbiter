@@ -1,5 +1,6 @@
 #include "player_list.h"
 
+#include <boost/uuid/uuid_generators.hpp>
 #include "catch.hpp"
 
 #include "player.h"
@@ -28,6 +29,6 @@ TEST_CASE("Find existing player", "") {
 TEST_CASE("Find nonexistent player", "") {
   libarbiter::PlayerList list;
 
-  auto iter = list.GetPlayer(1337);
+  auto iter = list.GetPlayer(boost::uuids::random_generator()());
   CHECK(iter == nullptr);
 }

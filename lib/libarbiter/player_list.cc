@@ -2,6 +2,8 @@
 
 #include <mutex>
 
+#include <boost/uuid/uuid.hpp>
+
 #include "player.h"
 
 namespace libarbiter {
@@ -11,12 +13,12 @@ void PlayerList::Add(const Player& player) {
   players_.emplace(player.id(), player);
 }
 
-void PlayerList::Remove(int id) {
+void PlayerList::Remove(boost::uuids::uuid id) {
   std::lock_guard<std::mutex> lock(players_lock_);
   players_.erase(id);
 }
 
-const Player* PlayerList::GetPlayer(int id) const {
+const Player* PlayerList::GetPlayer(boost::uuids::uuid id) const {
   auto player_pair = players_.find(id);
   if (player_pair != players_.end()) {
     return &player_pair->second;
@@ -24,7 +26,7 @@ const Player* PlayerList::GetPlayer(int id) const {
   return nullptr;
 }
 
-Player* PlayerList::GetMutablePlayer(int id) {
+Player* PlayerList::GetMutablePlayer(boost::uuids::uuid id) {
   auto player_pair = players_.find(id);
   if (player_pair != players_.end()) {
     return &player_pair->second;

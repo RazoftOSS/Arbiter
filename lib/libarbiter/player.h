@@ -3,13 +3,10 @@
 
 #include <string>
 
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
+
 namespace libarbiter {
-
-namespace {
-
-int current_player_id = 0;
-
-}  // namespace
 
 /**
  *  A single tournament participant.
@@ -17,9 +14,9 @@ int current_player_id = 0;
 class Player {
  public:
   Player(std::string name, int elo)
-      : id_(current_player_id++), name_(name), elo_(elo) {}
+      : id_(boost::uuids::random_generator()()), name_(name), elo_(elo) {}
 
-  int id() const { return id_; }
+  boost::uuids::uuid id() const { return id_; }
   std::string name() const { return name_; }
   int elo() const { return elo_; }
 
@@ -28,7 +25,7 @@ class Player {
   int losses() const { return losses_white_ + losses_black_; }
 
  private:
-  int id_;
+  boost::uuids::uuid id_;
   std::string name_;
   int elo_;
 

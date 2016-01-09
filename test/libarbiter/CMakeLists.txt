@@ -1,5 +1,6 @@
 include_directories(
   ${CMAKE_SOURCE_DIR}/extern/catch/single_include
+  ${Boost_INCLUDE_DIRS}
 )
 
 set(SOURCES
