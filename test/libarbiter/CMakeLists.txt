@@ -4,6 +4,7 @@ include_directories(
 
 set(SOURCES
   ${CMAKE_CURRENT_SOURCE_DIR}/test_main.cc
+  ${CMAKE_CURRENT_SOURCE_DIR}/player_list_test.inc
 )
 
 add_executable(libarbiter_test ${SOURCES})
