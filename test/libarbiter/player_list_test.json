@@ -1,0 +1,9 @@
+{
+    "players": [{
+        "name":"foo",
+        "elo":2000
+    }, {
+        "name":"Mr. Bar",
+        "elo":1089
+    }]
+}

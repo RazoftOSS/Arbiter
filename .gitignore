@@ -31,4 +31,5 @@ Compiled Object files
 *.swp
 
 build/
+docs/
 .ycm_extra_conf.*
