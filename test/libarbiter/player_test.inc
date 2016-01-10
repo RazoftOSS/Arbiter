@@ -1,3 +1,5 @@
+// vim: set ft=cpp
+
 #include "player.h"
 
 #include "catch.hpp"

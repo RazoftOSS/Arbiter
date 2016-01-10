@@ -1,3 +1,5 @@
+// vim: set ft=cpp
+
 #include "player_list.h"
 
 #include <boost/uuid/uuid_generators.hpp>
