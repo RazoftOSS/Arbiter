@@ -43,6 +43,17 @@ class PlayerList {
   /** Returns the number of Players in the PlayerList. */
   int NumPlayers() const;
 
+  /**
+   *  Populate the current PlayerList with Players parsed from a JSON or CSV
+   *  file.
+   *
+   *  JSON file must contain a single array named "players" containing a list of
+   *  the players to be added to the PlayerList.
+   *
+   *  Returns true on success and false on failure.
+   */
+  bool PopulateFromFile(std::string path, PlayerStringType type);
+
  private:
   /** Map of player ID's to players. */
   std::unordered_map<boost::uuids::uuid, std::unique_ptr<Player>,
@@ -50,6 +61,9 @@ class PlayerList {
 
   /** Lock protecting the map of players. */
   std::mutex players_lock_;
+
+  bool PopulateFromCSVFile(std::string path);
+  bool PopulateFromJSONFile(std::string path);
 };
 
 }  // namespace libarbiter

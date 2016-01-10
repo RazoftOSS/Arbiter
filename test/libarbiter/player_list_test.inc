@@ -32,3 +32,19 @@ TEST_CASE("Find nonexistent player", "") {
   auto iter = list.GetPlayer(boost::uuids::random_generator()());
   CHECK(iter == nullptr);
 }
+
+TEST_CASE("Parse valid CSV file", "") {
+  libarbiter::PlayerList list;
+
+  list.PopulateFromFile("./test/libarbiter/player_list_test.csv",
+                        libarbiter::PlayerStringType::CSV);
+  CHECK(list.NumPlayers() == 2);
+}
+
+TEST_CASE("Parse valid JSON file", "") {
+  libarbiter::PlayerList list;
+
+  list.PopulateFromFile("./test/libarbiter/player_list_test.json",
+                        libarbiter::PlayerStringType::JSON);
+  CHECK(list.NumPlayers() == 2);
+}
