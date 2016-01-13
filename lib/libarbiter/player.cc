@@ -2,6 +2,7 @@
 
 #include <iterator>
 #include <sstream>
+#include <stdexcept>
 #include <string>
 
 #include <boost/algorithm/string/replace.hpp>
@@ -10,10 +11,11 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/tokenizer.hpp>
 
-namespace libarbiter {
-namespace {
+#include "util.h"
 
-Player* NewPlayerCSV(std::string player_string) {
+namespace libarbiter {
+
+Player Player::FromCSV(std::string player_string) {
   // Because boost::tokenizer can't parse standard CSV quite correctly, we need
   // to mess with it a bit.
   // Replace \ with \\.
@@ -26,7 +28,7 @@ Player* NewPlayerCSV(std::string player_string) {
   if (std::distance(tokenizer.begin(), tokenizer.end()) != 2) {
     BOOST_LOG_TRIVIAL(warning) << "Player CSV data is of invalid length. Data: "
                                << player_string;
-    return nullptr;
+    throw std::invalid_argument("Player CSV data is of invalid length.");
   }
   auto iter = tokenizer.begin();
   std::string player_name = *iter;
@@ -37,36 +39,29 @@ Player* NewPlayerCSV(std::string player_string) {
   } catch (std::invalid_argument err) {
     BOOST_LOG_TRIVIAL(warning)
         << "Player CSV data contained invalid ELO. Data: " << player_string;
-    return nullptr;
+    throw std::invalid_argument("Player CSV data contained invalid ELO.");
   }
-  return new Player(player_name, player_elo);
+  return Player(player_name, player_elo);
 }
 
-Player* NewPlayerJSON(std::string player_string) {
+Player Player::FromJSON(std::string player_string) {
   boost::property_tree::ptree tree;
   std::stringstream ss(player_string);
-  boost::property_tree::read_json(ss, tree);
+  try {
+    boost::property_tree::read_json(ss, tree);
+  } catch (std::exception&) {
+    throw InvalidJSONException();
+  }
   std::string player_name = tree.get("name", "");
   int player_elo = tree.get("elo", -1);
   if (player_name == "" || player_elo == -1) {
     BOOST_LOG_TRIVIAL(warning)
         << "Player JSON data contained invalid or missing field. Data: "
         << player_string;
-    return nullptr;
+    throw std::invalid_argument(
+        "Player JSON data contained invalid or missing field.");
   }
-  return new Player(player_name, player_elo);
-}
-
-}  // namespace
-
-Player* Player::NewPlayer(std::string player_string, PlayerStringType type) {
-  switch (type) {
-    case PlayerStringType::CSV:
-      return NewPlayerCSV(player_string);
-    case PlayerStringType::JSON:
-      return NewPlayerJSON(player_string);
-  }
-  return nullptr;
+  return Player(player_name, player_elo);
 }
 
 }  // namespace libarbiter

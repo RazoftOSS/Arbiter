@@ -21,6 +21,30 @@ class Player {
   Player(std::string name, int elo)
       : id_(boost::uuids::random_generator()()), name_(name), elo_(elo) {}
 
+  /**
+   *  Constructs a Player from a line of CSV.
+   *
+   *  Example:
+   *  \code
+   *    foo,2000
+   *  \endcode
+   *
+   *  \throws std::invalid_argument if given invalid data.
+   */
+  static Player FromCSV(std::string player_string);
+
+  /**
+   *  Constructs a Player from a line of JSON.
+   *
+   *  Example:
+   *  \code
+   *    { "name": "foo", "elo": 2000 }
+   *  \endcode
+   *
+   *  \throws std::invalid_argument if given invalid data.
+   */
+  static Player FromJSON(std::string player_string);
+
   boost::uuids::uuid id() const { return id_; }
   std::string name() const { return name_; }
   int elo() const { return elo_; }
@@ -28,21 +52,6 @@ class Player {
   int wins() const { return wins_white_ + wins_black_; }
   int draws() const { return draws_white_ + draws_black_; }
   int losses() const { return losses_white_ + losses_black_; }
-
-  /**
-   *  Generates a Player from a single line of JSON or CSV.
-   *
-   *  JSON example:
-   *  \code
-   *    { "name": "foo", "elo": 2000 }
-   *  \endcode
-   *
-   *  CSV example:
-   *  \code
-   *    foo,2000
-   *  \endcode
-   */
-  static Player* NewPlayer(std::string player_string, PlayerStringType type);
 
  private:
   boost::uuids::uuid id_;
