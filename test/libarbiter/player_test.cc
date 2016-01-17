@@ -44,3 +44,21 @@ TEST_CASE("JSON Parsing: invalid elo", "") {
   REQUIRE_THROWS(
       libarbiter::Player::FromJSON("{\"name\":\"foo\", \"elo\":\"bar\"}"));
 }
+
+TEST_CASE("CSV Export: no quotes in name", "") {
+  libarbiter::Player player("foo", 2000);
+  CHECK(player.ExportCSV() == "\"foo\",2000");
+}
+
+TEST_CASE("CSV Export: quotes in name", "") {
+  libarbiter::Player player("Foo \"Bar\" Baz", 2000);
+  CHECK(player.ExportCSV() == "\"Foo \"\"Bar\"\" Baz\",2000");
+}
+
+TEST_CASE("JSON Export", "") {
+  libarbiter::Player player("foo", 2000);
+  boost::property_tree::ptree expected;
+  expected.add("name", "foo");
+  expected.add("elo", 2000);
+  CHECK(player.ExportJSON() == expected);
+}
