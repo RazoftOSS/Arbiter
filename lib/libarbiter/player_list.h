@@ -2,6 +2,7 @@
 #define LIB_LIBARBITER_PLAYER_LIST_H_
 
 #include <mutex>
+#include <ostream>
 #include <unordered_map>
 
 #include <boost/uuid/uuid.hpp>
@@ -52,6 +53,16 @@ class PlayerList {
    *  Returns true on success and false on failure.
    */
   void PopulateFromFile(std::string path, PlayerStringType type);
+
+  /**
+   *  Exports all of the players in the format of a CSV file.
+   */
+  void ExportCSV(std::ostream& out) const;
+
+  /**
+   *  Exports all of the players in the format of a JSON file.
+   */
+  void ExportJSON(std::ostream& out, bool pretty_print = false) const;
 
  private:
   /** Map of player ID's to players. */

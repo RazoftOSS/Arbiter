@@ -50,3 +50,23 @@ TEST_CASE("Parse valid JSON file", "") {
                             libarbiter::PlayerStringType::JSON));
   CHECK(list.NumPlayers() == 2);
 }
+
+TEST_CASE("Export CSV", "") {
+  libarbiter::PlayerList list;
+  list.Add(libarbiter::Player("foo", 2000));
+  std::stringstream ss;
+  list.ExportCSV(ss);
+  std::string output;
+  ss >> output;
+  CHECK(output == "\"foo\",2000");
+}
+
+TEST_CASE("Export JSON", "") {
+  libarbiter::PlayerList list;
+  list.Add(libarbiter::Player("foo", 2000));
+  std::stringstream ss;
+  list.ExportJSON(ss);
+  std::string output;
+  ss >> output;
+  CHECK(output == "{\"players\":[{\"name\":\"foo\",\"elo\":\"2000\"}]}");
+}
