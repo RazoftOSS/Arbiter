@@ -1,13 +1,16 @@
 set(CMAKE_BUILD_TYPE Debug)
 
 set(HEADERS
-    ${CMAKE_CURRENT_SOURCE_DIR}/player_list.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/game.h
     ${CMAKE_CURRENT_SOURCE_DIR}/player.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/player_list.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/swiss_pairer.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/swiss_pair_table.h
 )
 
 set(SOURCES
-    ${CMAKE_CURRENT_SOURCE_DIR}/player_list.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/player.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/player_list.cc
 )
 
 find_package(Boost COMPONENTS log REQUIRED)

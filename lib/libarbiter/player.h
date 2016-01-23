@@ -45,6 +45,9 @@ class Player {
    */
   static Player FromJSON(std::string player_string);
 
+  friend bool operator==(const Player& lhs, const Player& rhs);
+  friend bool operator!=(const Player& lhs, const Player& rhs);
+
   boost::uuids::uuid id() const { return id_; }
   std::string name() const { return name_; }
   int elo() const { return elo_; }

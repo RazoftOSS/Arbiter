@@ -64,4 +64,12 @@ Player Player::FromJSON(std::string player_string) {
   return Player(player_name, player_elo);
 }
 
+bool operator==(const libarbiter::Player& lhs, const libarbiter::Player& rhs) {
+  return lhs.id() == rhs.id();
+}
+
+bool operator!=(const libarbiter::Player& lhs, const libarbiter::Player& rhs) {
+  return lhs.id() != rhs.id();
+}
+
 }  // namespace libarbiter

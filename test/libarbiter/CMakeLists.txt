@@ -6,9 +6,11 @@ include_directories(
 )
 
 set(SOURCES
-  ${CMAKE_CURRENT_SOURCE_DIR}/test_main.cc
-  ${CMAKE_CURRENT_SOURCE_DIR}/player_list_test.cc
+  ${CMAKE_CURRENT_SOURCE_DIR}/game_test.cc
   ${CMAKE_CURRENT_SOURCE_DIR}/player_test.cc
+  ${CMAKE_CURRENT_SOURCE_DIR}/player_list_test.cc
+  ${CMAKE_CURRENT_SOURCE_DIR}/swiss_pair_table_test.cc
+  ${CMAKE_CURRENT_SOURCE_DIR}/test_main.cc
 )
 
 set(MISC_FILES
