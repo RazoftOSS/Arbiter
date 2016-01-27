@@ -64,4 +64,22 @@ Player Player::FromJSON(std::string player_string) {
   return Player(player_name, player_elo);
 }
 
+std::string Player::ExportCSV() const {
+  // The name field might include quotes, so we must escape them with another
+  // quote.
+  std::string escaped_name = name_;
+  boost::replace_all(escaped_name, "\"", "\"\"");
+  std::stringstream output;
+  output << "\"" << escaped_name << "\""
+         << "," << elo_;
+  return output.str();
+}
+
+boost::property_tree::ptree Player::ExportJSON() const {
+  boost::property_tree::ptree tree;
+  tree.add("name", name_);
+  tree.add("elo", elo_);
+  return tree;
+}
+
 }  // namespace libarbiter

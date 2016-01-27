@@ -3,6 +3,7 @@
 
 #include <string>
 
+#include <boost/property_tree/ptree.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 
@@ -44,6 +45,18 @@ class Player {
    *  \throws std::invalid_argument if given invalid data.
    */
   static Player FromJSON(std::string player_string);
+
+  /**
+   *  Serialises the Player to a line of CSV.
+   */
+  std::string ExportCSV() const;
+
+  /**
+   *  Serialises the Player to a JSON object.
+   *
+   *  The JSON is stored in a boost::property_tree::ptree.
+   */
+  boost::property_tree::ptree ExportJSON() const;
 
   boost::uuids::uuid id() const { return id_; }
   std::string name() const { return name_; }

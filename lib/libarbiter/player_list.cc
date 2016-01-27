@@ -84,4 +84,20 @@ void PlayerList::PopulateFromJSONFile(std::string path) {
   }
 }
 
+void PlayerList::ExportCSV(std::ostream& out) const {
+  for (const auto& player_pair : players_) {
+    out << player_pair.second.ExportCSV() << std::endl;
+  }
+}
+
+void PlayerList::ExportJSON(std::ostream& out, bool pretty_print) const {
+  boost::property_tree::ptree tree;
+  boost::property_tree::ptree array;
+  for (const auto& player_pair : players_) {
+    array.push_back(std::make_pair("", player_pair.second.ExportJSON()));
+  }
+  tree.add_child("players", array);
+  boost::property_tree::write_json(out, tree, pretty_print);
+}
+
 }  // namespace libarbiter
